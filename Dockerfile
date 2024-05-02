@@ -28,6 +28,7 @@ COPY cerebro_pns_nodicam cerebro_pns_nodicam
 COPY cerebro_stroke cerebro_stroke
 COPY cerebro_uveitis cerebro_uveitis
 COPY ns ns
+COPY cerebro_pns_atlas cerebro_pns_atlas
 
 ENV RENV_PATHS_LIBRARY renv/library
 
