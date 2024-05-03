@@ -30,11 +30,7 @@ COPY cerebro_stroke cerebro_stroke
 COPY cerebro_uveitis cerebro_uveitis
 COPY ns ns
 
-RUN mkdir -p renv
-COPY .Rprofile .Rprofile
-COPY renv/activate.R renv/activate.R
-COPY renv/settings.json renv/settings.json
-
+ENV RENV_PATHS_LIBRARY renv/library
 
 # Restore the R environment
 RUN R -e "renv::restore()"
