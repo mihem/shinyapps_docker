@@ -35,9 +35,6 @@ COPY .Rprofile .Rprofile
 COPY renv/activate.R renv/activate.R
 COPY renv/settings.json renv/settings.json
 
-# change default location of cache to project folder
-RUN mkdir renv/.cache
-ENV RENV_PATHS_CACHE renv/.cache
 
 # Restore the R environment
 RUN R -e "renv::restore()"
