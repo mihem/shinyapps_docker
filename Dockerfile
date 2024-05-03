@@ -1,9 +1,8 @@
 # Example shiny app docker file
 # https://blog.sellorm.com/2021/04/25/shiny-app-in-docker/
-#https://rstudio.github.io/renv/articles/docker.html
 
 # get shiny server and R from the rocker project
-FROM rocker/shiny:4.2.1 AS base
+FROM rocker/shiny:4.2.1
 
 # system libraries
 # Try to only install system libraries you actually need
@@ -29,16 +28,10 @@ COPY cerebro_pns_nodicam cerebro_pns_nodicam
 COPY cerebro_stroke cerebro_stroke
 COPY cerebro_uveitis cerebro_uveitis
 COPY ns ns
+COPY cerebro_pns_atlas cerebro_pns_atlas
 
 ENV RENV_PATHS_LIBRARY renv/library
 
 # Restore the R environment
 RUN R -e "renv::restore()"
 
-#second stage
-FROM rocker/shiny:4.2.1
-
-WORKDIR /srv/shiny-server/shiny
-COPY --from=base /srv/shiny-server/shiny .
-
-COPY cerebro_pns_atlas cerebro_pns_atlas
