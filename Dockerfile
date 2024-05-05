@@ -7,6 +7,10 @@ FROM rocker/shiny:4.4.0
 # system libraries
 # Try to only install system libraries you actually need
 # Package Manager is a good resource to help discover system deps
+RUN apt-get update --yes \
+ && apt-get upgrade --yes \
+ && apt-get install --yes \
+  libhdf5-dev
 
 # Delete example files
 RUN rm -rf /srv/shiny-server/*
