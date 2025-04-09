@@ -17,7 +17,7 @@ RUN rm -rf /srv/shiny-server/*
 
 # install R packages required 
 # Change the packages list to suit your needs
-RUN R -e 'install.packages("renv", repos = "https://packagemanager.rstudio.com/cran/__linux__/jammy/2024-05-03")'
+RUN R -e 'install.packages("renv", repos = "https://packagemanager.posit.co/cran/__linux__/noble/2025-04-09")'
 
 # Copy renv files 
 WORKDIR /srv/shiny-server/shiny
