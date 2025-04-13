@@ -1,3 +1,5 @@
+# setup CerebroApp
+# this  creates cerebroApp or cerebroAppLite and convert crb to h5 to increase speed
 library(cerebroApp)
 library(Matrix)
 library(HDF5Array)
