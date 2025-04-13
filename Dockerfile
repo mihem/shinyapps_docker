@@ -22,7 +22,6 @@ RUN R -e 'install.packages("renv", repos = "https://packagemanager.posit.co/cran
 # Copy renv files 
 WORKDIR /srv/shiny-server/shiny
 COPY renv.lock renv.lock
-COPY cerebro_aie cerebro_aie
 COPY cerebro_covid19 cerebro_covid19
 COPY cerebro_meninges_mouse cerebro_meninges_mouse
 COPY cerebro_meninges_rat cerebro_meninges_rat
