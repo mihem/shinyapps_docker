@@ -22,7 +22,7 @@ shinyUI <- fluidPage(
                 min = 0, max = 5, value = 0.05, step = 0.01)
     ),
     mainPanel(h1("Differentiating neurosarcoidosis from multiple sclerosis", align = "center"), br(),
-              ("This app is designed to support distinguishing neurosarcoidosis from multiple sclerosis in clinical difficult cases based on flow cytometry of blood and CSF. Simply fill in the parameters of your patient with suspected neurosarcoidosis (NS) or multiple sclerosis (MS) on the left. A penalized logistic regression model will then predict the probability of the presence of NS and MS in live mode. "), br(),br(),
+              ("This app is designed to support distinguishing neurosarcoidosis from multiple sclerosis in clinically challenging cases, using flow cytometry data from blood and CSF. Simply fill in the parameters of your patient with suspected neurosarcoidosis (NS) or multiple sclerosis (MS) on the left. A penalized logistic regression model will then predict the probability of the presence of NS and MS in live mode. "), br(),br(),
               h4(textOutput("ns")),
               h4(textOutput("ms")), br(),
               em("Note: this model is experimental and has not been approved for clinical use. Based on a small cohort its sensitivity is 94-100% and its specificity is 67-69% (MS defined as positives, NS defined as negatives). More information can be found in the following paper:"),tags$a(href = "https://doi.org/10.1016/j.jneuroim.2020.577171", "Heming et al., 2020"),br(),br(),
