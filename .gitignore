@@ -1,2 +1,16 @@
-cerebro_*
-ns/
+# Ignore everything
+*
+
+# But not these files in the root directory
+!renv.lock
+!Dockerfile
+!docker_run.sh
+!.gitignore
+!1_cerebro_host.R
+!ns/server.R
+!ns/ui.R
+!app.R
+
+#even if they are in subdirectories
+!*/
+
