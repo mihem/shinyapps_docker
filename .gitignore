@@ -2,7 +2,7 @@
 *
 
 # But not these files in the root directory
-!README
+!README.md
 !renv.lock
 !Dockerfile
 !docker_run.sh
