@@ -9,7 +9,7 @@ library(shinyWidgets)
 
 custom_welcome_message <- '<h2 style="text-align: center; margin-top: 0px"><strong>Single nuclei sural nerve atlas</strong></h3>
 <br>
-  <p style="margin-left: 10px;">This data set belongs to the publication <a href = "https://doi.org/10.1038/s41467-025-62964-8">Multi-omic characterization of human sural nerves across polyneuropathies</a> by Heming et al., <em> Nature Communications </em> 2025. <br> It contains over 365,000 nuclei of 33 polyneuropathy patients and 4 controls from sural nerves. To interactively explore the spatial transcriptomics data, raw data, code and more please refer to  the accompanying webpage <a href = "https://pns-atlas.mzhlab.com"> pns-atlas.mzhlab.com </a> and <a href = "https://doi.org/10.1038/s41467-025-62964-8"> our publication </a>. <br> Please contact us at <a href = "https://www.mheming.com"> mheming.com </a> if you have any questions.</p>
+  <p style="margin-left: 10px;">This data set belongs to the publication <a href = "https://doi.org/10.1038/s41467-025-62964-8">Multi-omic characterization of human sural nerves across polyneuropathies</a> by Heming et al., <em> Nature Communications </em> 2025. <br> It contains over 365,000 nuclei of 33 polyneuropathy patients and 4 controls from sural nerves. To interactively explore the spatial transcriptomics data, download the raw data, access the code, and more, please refer to  the accompanying webpage <a href = "https://pns-atlas.mzhlab.com"> pns-atlas.mzhlab.com </a> and <a href = "https://doi.org/10.1038/s41467-025-62964-8"> our publication </a>. <br> Please contact us at <a href = "https://www.mheming.com"> mheming.com </a> if you have any questions.</p>
 <br>' 
 
 ## set parameters ------------------------------------------------------------##
