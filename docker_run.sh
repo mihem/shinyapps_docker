@@ -4,4 +4,4 @@ docker run \
 	--name shinyapps \
 	--restart=unless-stopped \
 	-p 3838:3838 \
-	mihem/shinyapps_3838:v6.0
+	mihem/shinyapps_3838:v7.0
