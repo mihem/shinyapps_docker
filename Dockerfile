@@ -32,6 +32,7 @@ RUN apt-get update --yes \
   libssh2-1-dev \
   libmagick++-dev \
   libgsl-dev \
+  libglpk-dev\
   && rm -rf /var/lib/apt/lists/*
 
 
