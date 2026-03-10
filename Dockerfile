@@ -64,3 +64,4 @@ COPY cerebro_uveitis cerebro_uveitis
 COPY ns ns
 COPY cerebro_pns_atlas cerebro_pns_atlas
 COPY btki btki
+COPY cerebro_dura cerebro_dura
