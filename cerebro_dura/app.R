@@ -1,7 +1,7 @@
 #==============================================================================
-# Cerebro Shiny App - 静态登录页优化版
-# 用户打开页面立即显示静态登录表单，Shiny 在后台加载
-# 登录验证通过后无缝切换到主应用，无需跳转
+# Cerebro Shiny App - Static Login Page Optimized Version
+# Displays static login form immediately when user opens the page
+# Shiny loads in the background; seamless transition to main app after login
 #==============================================================================
 
 library(dplyr)
@@ -13,17 +13,17 @@ library(shinyWidgets)
 
 
 
-# 定义结果保存目录
+# Define result save directory
 cerebro_root <- "."
 
-## 加载配置
+## Load configuration
 if (file.exists("cerebro_config.rds")) {
   Cerebro.options <<- readRDS("cerebro_config.rds")
 } else {
   stop("cerebro_config.rds not found!")
 }
 
-# 兼容旧代码：如果有 colors 选项，设置为全局变量
+# Backward compatibility: if colors option exists, set as global variable
 if (!is.null(Cerebro.options$colors)) {
   colors <- Cerebro.options$colors
 }
@@ -40,7 +40,7 @@ shiny_options <- list(
 ## Expose data directory for spatial images
 shiny::addResourcePath("data", file.path(cerebro_root, "data"))
 
-## 加载服务器和界面函数
+## Load server and UI functions
 source(file.path(cerebro_root, "shiny/shiny_UI.R"))
 source(file.path(cerebro_root, "shiny/shiny_server.R"))
 

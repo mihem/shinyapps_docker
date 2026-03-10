@@ -2,15 +2,15 @@
 *
 
 # But not these files in the root directory
-!.gitignore
 !README.md
 !renv.lock
 !Dockerfile
 !docker_run.sh
+!.gitignore
 !1_cerebro_host.R
-
-# But not these files in subdirectories
-!*/
 !ns/server.R
 !ns/ui.R
 !app.R
+
+#even if they are in subdirectories
+!*/

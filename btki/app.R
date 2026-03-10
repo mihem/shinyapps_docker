@@ -15,7 +15,7 @@ options(width = as.integer(Sys.getenv("COLUMNS", 200)))
 source("R/run_app.R")
 
 # Set port
-port <- 3833
+port <- 3838
 
 # Run application
 # Development mode: with debug information
@@ -24,5 +24,5 @@ port <- 3833
 # # Development mode: without debug information
 # run_app_dev_no_auth(port = port)  # Skip authentication for easier debugging
 
-# # Production mode:
-# run_app_production(port = port, host = "0.0.0.0")
+# Production mode:
+run_app_production(port = port, host = "0.0.0.0")
