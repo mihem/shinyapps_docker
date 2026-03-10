@@ -39,11 +39,11 @@ RUN apt-get update --yes \
 # Delete example files
 RUN rm -rf /srv/shiny-server/*
 
-# install R packages required 
+# install R packages required
 # Change the packages list to suit your needs
 RUN R -e 'install.packages("renv", repos = "https://packagemanager.posit.co/cran/__linux__/noble/2025-04-09")'
 
-# Copy renv files 
+# Copy renv files
 WORKDIR /srv/shiny-server/shiny
 COPY renv.lock renv.lock
 
@@ -53,14 +53,15 @@ ENV RENV_PATHS_LIBRARY renv/library
 RUN R -e "renv::restore()"
 
 # copy the apps
-COPY cerebro_covid19 cerebro_covid19
-COPY cerebro_meninges_mouse cerebro_meninges_mouse
-COPY cerebro_meninges_rat cerebro_meninges_rat
-COPY cerebro_pcnsl cerebro_pcnsl
-COPY cerebro_pns_naive cerebro_pns_naive
-COPY cerebro_pns_nodicam cerebro_pns_nodicam
-COPY cerebro_stroke cerebro_stroke
-COPY cerebro_uveitis cerebro_uveitis
-COPY ns ns
-COPY cerebro_pns_atlas cerebro_pns_atlas
-COPY btki btki
+COPY apps/cerebro_covid19 cerebro_covid19
+COPY apps/cerebro_meninges_mouse cerebro_meninges_mouse
+COPY apps/cerebro_meninges_rat cerebro_meninges_rat
+COPY apps/cerebro_pcnsl cerebro_pcnsl
+COPY apps/cerebro_pns_naive cerebro_pns_naive
+COPY apps/cerebro_pns_nodicam cerebro_pns_nodicam
+COPY apps/cerebro_stroke cerebro_stroke
+COPY apps/cerebro_uveitis cerebro_uveitis
+COPY apps/ns ns
+COPY apps/cerebro_pns_atlas cerebro_pns_atlas
+COPY apps/btki btki
+COPY apps/cerebro_dura dura

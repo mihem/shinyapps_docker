@@ -9,8 +9,9 @@
 !.gitignore
 !1_cerebro_host.R
 !ns/server.R
-!ns/ui.R
-!app.R
+!apps/ns/server.R
+!apps/ns/ui.R
+!apps/ns/ns_shiny_noplasma_csf.rds
 
 #even if they are in subdirectories
 !*/
