@@ -1,18 +1,31 @@
-# Ignore everything
+# Ignore everything by default
 *
 
-# But not these files in the root directory
-!README.md
-!renv.lock
-!Dockerfile
-!docker_run.sh
+# Keep directory structure visible for whitelist matching
+!*/
+
+# Root-level files to track
 !.gitignore
 !1_cerebro_host.R
-!ns/server.R
+
+!README.md
+
+# Keep renv files for reproducibility
+!renv.lock
+
+# Keep Docker-related files
+!Dockerfile
+!docker-compose.yml
+!run_app.sh
+
+# Keep Shiny app entry files (all directories)
+!**/app.R
+!**/run_app.sh
+
 !apps/ns/server.R
 !apps/ns/ui.R
 !apps/ns/ns_shiny_noplasma_csf.rds
 
-#even if they are in subdirectories
-!*/
-
+# Keep scripts directory
+!scripts/
+!scripts/**
