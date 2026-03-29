@@ -8,6 +8,7 @@
 !docker_run.sh
 !.gitignore
 !1_cerebro_host.R
+!2_cerebro_h5.R
 !ns/server.R
 !ns/ui.R
 !app.R
