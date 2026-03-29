@@ -1,13 +1,13 @@
 # setup CerebroApp
-# this  creates cerebroApp or cerebroAppLite and convert crb to h5 to increase speed
-library(cerebroApp)
-library(Matrix)
-library(HDF5Array)
-
-app_directory <- "cerebro_uveitis"
+# this  creates cerebroApp or cerebroAppLite
+args <- commandArgs(trailingOnly = TRUE)
+if (length(args) != 1) stop("Usage: Rscript setup_cerebro_app.R <app_directory>")
+app_directory <- args[1]
 
 dir.create(app_directory)
 dir.create(file.path(app_directory, "shiny"))
+
+message("Directory ", app_directory, " created")
 
 file.copy(
   system.file("extdata", package = "cerebroAppLite"),
@@ -15,35 +15,12 @@ file.copy(
   recursive = TRUE
 )
 
-# unlink(
-#   c(glue::glue("{app_directory}/extdata/v1.0"),
-#     glue::glue("{app_directory}/extdata/v1.1"),
-#     glue::glue("{app_directory}/extdata/v1.2")),
-#   recursive = TRUE
-# )
-
 file.copy(
   system.file("shiny", "v1.4", package = "cerebroAppLite"),
-  # system.file("shiny", "v1.4", package = "cerebroApp"),
   file.path(app_directory, "shiny"),
   recursive = TRUE,
   overwrite = TRUE
 )
 
-crb_input <- file.path(app_directory, "extdata", "v1.4", "sc_merge_cerebro.crb")
-crb_output <- file.path(app_directory, "extdata", "v1.4", "sc_merge_cerebro_h5.crb")
-h5_expression <- file.path(app_directory, "extdata", "v1.4", "sc_merge_cerebro.h5")
+message("Cerebroapp created.")
 
-
-crb <- readRDS(crb_input)
-
-writeTENxMatrix(
-  Matrix::t(crb$expression),
-  h5_expression,
-  group = "expression"
-)
-
-expression_matrix_h5 <- TENxMatrix(h5_expression, group="expression")
-
-crb$expression <- NULL
-saveRDS(crb, crb_output)
