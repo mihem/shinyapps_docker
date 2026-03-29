@@ -1,8 +1,8 @@
 # Example shiny app docker file
 # https://blog.sellorm.com/2021/04/25/shiny-app-in-docker/
 
-# get shiny server and R from the rocker project
-FROM rocker/shiny:4.5.2
+# get shiny server and R from the rocker project 4.5.2
+FROM rocker/shiny@sha256:5778d5b48aae0612a8a2e2510c38f7b7ee16be00ae8d25f294158c4f8bc80d98
 
 # system libraries
 # Try to only install system libraries you actually need
@@ -65,3 +65,5 @@ COPY ns ns
 COPY cerebro_pns_atlas cerebro_pns_atlas
 COPY btki btki
 COPY cerebro_dura cerebro_dura
+COPY cerebro_PMS cerebro_PMS
+COPY cerebro_in_seq cerebro_in_seq
