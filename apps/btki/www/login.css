@@ -1,0 +1,100 @@
+/* 仅作用于登录页（shinymanager 容器选择器）。
+   注：新版本通常为 #shinymanager-auth；如你的版本为 #auth，请把选择器改为 #auth */
+#shinymanager-auth, #auth {
+  /* 背景图 + 渐变遮罩 */
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(0, 25, 60, .65), rgba(0, 82, 155, .55)),
+    url("login-bg.jpg") center/cover no-repeat fixed;
+}
+
+/* 居中登录面板 */
+#shinymanager-auth .container, #auth .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* 登录卡片（shinymanager 使用 bootstrap panel） */
+#shinymanager-auth .panel, #auth .panel {
+  width: 420px;
+  max-width: 92vw;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0,0,0,.25);
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(6px);
+}
+
+#shinymanager-auth .panel-heading, #auth .panel-heading {
+  background: linear-gradient(135deg, #00529b, #0076d6);
+  color: #fff !important;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 16px 20px;
+  border: none;
+}
+
+#shinymanager-auth .panel-body, #auth .panel-body {
+  padding: 22px 22px 6px 22px;
+}
+
+/* 输入框 */
+#shinymanager-auth .form-control, #auth .form-control {
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid #d6deeb;
+  box-shadow: none;
+}
+#shinymanager-auth .form-control:focus, #auth .form-control:focus {
+  border-color: #5aa9ff;
+  box-shadow: 0 0 0 3px rgba(0,122,255,.15);
+}
+
+/* 登录按钮 */
+#shinymanager-auth .btn-primary, #auth .btn-primary {
+  height: 42px;
+  border-radius: 10px;
+  background: #0066cc;
+  border-color: #0066cc;
+  font-weight: 600;
+}
+#shinymanager-auth .btn-primary:hover, #auth .btn-primary:hover {
+  background: #0052a3;
+  border-color: #0052a3;
+}
+
+/* 错误提示 */
+#shinymanager-auth .alert-danger, #auth .alert-danger {
+  border-radius: 10px;
+}
+
+/* 顶部品牌区（通过 tags_top 自行插入） */
+.login-brand {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,.35);
+  font-weight: 600;
+}
+.login-brand img {
+  height: 28px;
+}
+
+/* 页脚版权（通过 tags_bottom 自行插入） */
+.login-footer {
+  position: fixed;
+  bottom: 16px;
+  width: 100%;
+  text-align: center;
+  color: rgba(80, 78, 78, 0.9);
+  font-size: 12px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.35);
+  pointer-events: none;
+}

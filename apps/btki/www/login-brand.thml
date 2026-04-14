@@ -1,0 +1,5 @@
+<!-- 可选：如果想在登录页左上角放品牌 Logo/标题，可在 tags_top 里 includeHTML 这个文件 -->
+<div class="login-brand">
+  <img src="logo.svg" alt="Brand">
+  <span>Multi-omics Analysis Dashboard</span>
+</div>

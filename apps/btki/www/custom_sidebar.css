@@ -1,0 +1,128 @@
+/* 容器基础滚动美化 */
+.custom-sidebar-wrapper {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.custom-sidebar-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+.custom-sidebar-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(120,120,120,0.35);
+  border-radius: 4px;
+}
+.custom-sidebar-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(120,120,120,0.55);
+}
+
+/* 分组标题 */
+.sidebar-menu .sidebar-section-header {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  padding: 10px 18px 6px 18px;
+  margin: 12px 0 4px 0;
+  text-transform: uppercase;
+  color: #2e4a5f;
+  line-height: 1.2;
+  position: relative;
+  background: linear-gradient(90deg, rgba(0,123,255,0.12), rgba(0,123,255,0.00));
+  border-left: 4px solid #0d6efd;
+  border-radius: 0 4px 4px 0;
+}
+
+/* 深色模式兼容（如果有切换） */
+body.dark-mode .sidebar-menu .sidebar-section-header {
+  color: #dbe7f3;
+  background: linear-gradient(90deg, rgba(13,110,253,0.35), rgba(13,110,253,0.05));
+  border-left-color: #66b0ff;
+}
+
+/* 分组标题之间的分隔虚线（可选） */
+.sidebar-menu .sidebar-section-header + .sidebar-section-header {
+  margin-top: 20px;
+}
+
+/* menuItem 主级标题（PBMC Analysis / CSF Analysis） */
+.sidebar-menu > li.treeview > a {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: .3px;
+}
+
+/* 子项（menuSubItem）统一左缩进 & 行高 */
+.sidebar-menu .treeview-menu > li > a {
+  padding: 8px 25px 8px 34px;
+  font-size: 13.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.15;
+}
+
+/* emoji 基线调整 */
+.sidebar-menu .treeview-menu > li > a .fa,
+.sidebar-menu .treeview-menu > li > a i {
+  width: 16px;
+}
+
+/* Hover 效果与活动项 */
+.sidebar-menu .treeview-menu > li > a:hover {
+  background: rgba(13,110,253,0.10);
+  color: #0a58ca;
+}
+
+.sidebar-menu .treeview-menu > li.active > a,
+.sidebar-menu .treeview-menu > li > a.active {
+  background: rgba(13,110,253,0.18);
+  font-weight: 600;
+  color: #084298;
+  border-left: 4px solid #0d6efd;
+  padding-left: 30px; /* 补偿加的边条 */
+}
+
+body.dark-mode .sidebar-menu .treeview-menu > li.active > a,
+body.dark-mode .sidebar-menu .treeview-menu > li > a.active {
+  background: rgba(90,150,255,0.25);
+  color: #e1f1ff;
+  border-left-color: #66b0ff;
+}
+
+/* 去掉默认 header 的原样式（如果你仍保留 li.header） */
+.sidebar-menu > li.header {
+  font-size: 13px;
+  font-weight: 600;
+  color: #2e4a5f;
+  padding: 10px 18px 6px 18px;
+}
+
+/* 去掉 treeview-menu 顶部多余间距 */
+.sidebar-menu .treeview-menu {
+  padding-left: 0;
+  margin: 0 0 10px 0;
+}
+
+/* 更紧凑的整体行高 */
+.sidebar-menu > li > a {
+  line-height: 1.2;
+}
+
+/* 分组顶部与下方子项间距 */
+.sidebar-section-header + li > a {
+  margin-top: 2px;
+}
+
+/* 可选：细分隔线 */
+.sidebar-menu li:not(.sidebar-section-header) + .sidebar-section-header {
+  border-top: 1px dashed rgba(0,0,0,0.12);
+  padding-top: 14px;
+}
+body.dark-mode .sidebar-menu li:not(.sidebar-section-header) + .sidebar-section-header {
+  border-top: 1px dashed rgba(255,255,255,0.15);
+}
+
+/* 轻量阴影（提升质感） */
+.skin-blue .main-sidebar,
+.main-sidebar {
+  box-shadow: 2px 0 6px rgba(0,0,0,0.08);
+}
