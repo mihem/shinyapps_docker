@@ -1,4 +1,4 @@
-# Shiny Apps — OSMZH Lab
+# Shiny Apps — MzH Lab
 
 Interactive single-cell transcriptomics atlases and analysis tools, served via Shiny Server on Docker.
 
