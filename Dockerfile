@@ -54,7 +54,7 @@ RUN R -e 'install.packages("pak", repos = "https://packagemanager.posit.co/cran/
 # from P3M where available, and compiles from source otherwise.
 #
 # CRAN / Bioconductor packages: plain name
-# GitHub packages:              "owner/repo" or "owner/repo@ref"
+# GitHub packages:              "owner/repo/subdir@ref"
 #
 # To add a new package: add it to the list below and rebuild.
 # The BuildKit cache mount means only the new package is downloaded/compiled.
@@ -62,7 +62,6 @@ RUN --mount=type=cache,target=/root/.cache/R/pkgcache \
     R -e 'pak::pak(c( \
       "ape", \
       "base64enc", \
-      "bnprks/BPCells/r@main", \
       "bslib", \
       "cachem", \
       "caret", \
@@ -118,3 +117,9 @@ RUN --mount=type=cache,target=/root/.cache/R/pkgcache \
       "tidyverse", \
       "viridis" \
     ))'
+
+# BPCells is installed separately because it is downloaded from GitHub and
+# is prone to transient download failures. A separate RUN step means Docker
+# can retry just this layer without reinstalling everything above.
+RUN --mount=type=cache,target=/root/.cache/R/pkgcache \
+    R -e 'pak::pak("bnprks/BPCells/r@main")'
