@@ -117,9 +117,3 @@ RUN --mount=type=cache,target=/root/.cache/R/pkgcache \
       "tidyverse", \
       "viridis" \
     ))'
-
-# BPCells is installed separately because it is downloaded from GitHub and
-# is prone to transient download failures. A separate RUN step means Docker
-# can retry just this layer without reinstalling everything above.
-RUN --mount=type=cache,target=/root/.cache/R/pkgcache \
-    R -e 'pak::pak("bnprks/BPCells/r@main")'
