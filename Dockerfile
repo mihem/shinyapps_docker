@@ -1,12 +1,21 @@
-# Example shiny app docker file
-# https://blog.sellorm.com/2021/04/25/shiny-app-in-docker/
+# Shiny apps Docker image
+# App code and data are NOT baked into this image.
+# They are bind-mounted from the host at runtime via docker-compose.yml.
+# This image provides only: OS, system libraries, and R packages.
+#
+# Build:
+#   docker buildx build -t mihem/shinyapps_3838:v14 .
+#
+# The --mount=type=cache below keeps the renv package cache (downloaded and
+# compiled packages) persistent across builds on the build host. When you add
+# a new package to renv.lock, only that package is downloaded/compiled;
+# everything else is served from the cache. Requires BuildKit (default since
+# Docker 23). If you are on an older Docker: DOCKER_BUILDKIT=1 docker build ...
 
 # get shiny server and R from the rocker project
 FROM rocker/shiny@sha256:7e9bf76faa7201fd60e2229e75f2e085030cfd552252570db16b12c9acbf36c9
 
 # system libraries
-# Try to only install system libraries you actually need
-# Package Manager is a good resource to help discover system deps
 RUN apt-get update --yes \
   && apt-get upgrade --yes \
   && apt-get install --yes \
@@ -32,38 +41,27 @@ RUN apt-get update --yes \
   libssh2-1-dev \
   libmagick++-dev \
   libgsl-dev \
-  libglpk-dev\
+  libglpk-dev \
   && rm -rf /var/lib/apt/lists/*
 
-
-# Delete example files
+# Delete example files shipped with the base image
 RUN rm -rf /srv/shiny-server/*
 
-# install R packages required 
-# Change the packages list to suit your needs
+# Install renv from a date-pinned binary snapshot
 RUN R -e 'install.packages("renv", repos = "https://packagemanager.posit.co/cran/__linux__/noble/2026-04-14")'
 
-# Copy renv files 
 WORKDIR /srv/shiny-server/shiny
+
 COPY renv.lock renv.lock
 
-ENV RENV_PATHS_LIBRARY renv/library
+# RENV_PATHS_LIBRARY: where the project library is installed (baked into image)
+# RENV_PATHS_CACHE:   where renv caches downloaded/compiled packages
+#                     mapped to the BuildKit cache mount so it persists between builds
+ENV RENV_PATHS_LIBRARY=/srv/shiny-server/shiny/renv/library
+ENV RENV_PATHS_CACHE=/renv-cache
 
-# Restore the R environment
-RUN R -e "renv::restore()"
-
-# copy the apps
-COPY cerebro_covid19 cerebro_covid19
-COPY cerebro_meninges_mouse cerebro_meninges_mouse
-COPY cerebro_meninges_rat cerebro_meninges_rat
-COPY cerebro_pcnsl cerebro_pcnsl
-COPY cerebro_pns_naive cerebro_pns_naive
-COPY cerebro_pns_nodicam cerebro_pns_nodicam
-COPY cerebro_stroke cerebro_stroke
-COPY cerebro_uveitis cerebro_uveitis
-COPY ns ns
-COPY cerebro_pns_atlas cerebro_pns_atlas
-COPY btki btki
-COPY cerebro_dura cerebro_dura
-COPY cerebro_PMS cerebro_PMS
-COPY cerebro_in_seq cerebro_in_seq
+# Restore R packages.
+# --mount=type=cache keeps /renv-cache across builds on this machine,
+# so only newly added packages are downloaded/compiled on subsequent builds.
+RUN --mount=type=cache,target=/renv-cache \
+    R -e "renv::restore()"

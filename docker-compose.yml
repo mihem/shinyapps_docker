@@ -1,0 +1,13 @@
+services:
+  shiny:
+    image: mihem/shinyapps_3838:v14
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3838:3838"
+    volumes:
+      # Bind-mount only the apps/ subdirectory so that repo infrastructure
+      # files (Dockerfile, renv.lock, docker-compose.yml, etc.) are not
+      # visible inside the container.
+      # Adjust the source path to wherever the repo is cloned on the server.
+      - ./apps:/srv/shiny-server/shiny:ro

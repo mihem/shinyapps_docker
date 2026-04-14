@@ -1,0 +1,23 @@
+# ── Local renv library ────────────────────────────────────────────────────────
+# The installed package library on the dev machine; large and not needed in
+# the image (renv::restore() rebuilds it inside the container).
+renv/library/
+renv/staging/
+renv/sandbox/
+
+# ── App directories ───────────────────────────────────────────────────────────
+# App code and data are bind-mounted from the host at runtime (see
+# docker-compose.yml). Nothing under apps/ needs to be in the build context.
+apps/
+
+# ── Git and tooling ───────────────────────────────────────────────────────────
+.git/
+.gitignore
+.renvignore
+
+# ── Docs and helper scripts ───────────────────────────────────────────────────
+README.md
+1_cerebro_host.R
+2_cerebro_h5.R
+docker_run.sh
+docker-compose.yml
