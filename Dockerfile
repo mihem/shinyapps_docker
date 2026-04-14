@@ -60,6 +60,11 @@ COPY renv.lock renv.lock
 ENV RENV_PATHS_LIBRARY=/srv/shiny-server/shiny/renv/library
 ENV RENV_PATHS_CACHE=/renv-cache
 
+# Skip post-install loadNamespace() checks: these cause ordering failures
+# when a binary package (qs) is tested before its source-compiled dependency
+# (RApiSerialize) has finished building. Not needed in a Docker build.
+ENV RENV_CONFIG_INSTALL_TEST=FALSE
+
 # Restore R packages.
 # --mount=type=cache keeps /renv-cache across builds on this machine,
 # so only newly added packages are downloaded/compiled on subsequent builds.
