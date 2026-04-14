@@ -36,7 +36,6 @@ Cerebro-based apps use [cerebroApp](https://github.com/romanhaa/cerebroApp) / [c
 shinyapps_docker/
 ├── Dockerfile            # R packages + system libs only (no app code)
 ├── docker-compose.yml    # Runtime config: ports, volumes, restart policy
-├── renv.lock             # Pinned R package versions (~215 packages)
 ├── apps/                 # All Shiny apps (bind-mounted into container)
 │   ├── cerebro_covid19/
 │   ├── cerebro_dura/
@@ -65,7 +64,7 @@ cd /path/to/shinyapps_docker
 # apps/cerebro_dura/data/...  etc.
 
 # Build the image (this is the slow step — installs all R packages)
-docker buildx build -t mihem/shinyapps_3838:v14 .
+docker buildx build -t mihem/shinyapps_3838:v15 .
 
 # Start the container
 docker compose up -d
@@ -82,11 +81,11 @@ git pull
 docker compose restart
 ```
 
-### After `renv.lock` changes (new R package added)
+### After adding a new R package
 
 ```bash
 git pull
-docker buildx build -t mihem/shinyapps_3838:v14 .
+docker buildx build -t mihem/shinyapps_3838:v15 .
 docker compose up -d
 ```
 
@@ -95,22 +94,24 @@ The BuildKit cache persists compiled packages between builds on the server, so o
 ### Push a new image to Docker Hub
 
 ```bash
-docker buildx build -t mihem/shinyapps_3838:v14 .
-docker push mihem/shinyapps_3838:v14
+docker buildx build -t mihem/shinyapps_3838:v15 .
+docker push mihem/shinyapps_3838:v15
 ```
 
 ---
 
 ## Adding a new R package
 
-On your development machine:
+Add the package name to the `pak::pak(c(...))` list in `Dockerfile`, then rebuild:
 
-```r
-renv::install("packagename")
-renv::snapshot()
+```bash
+# On the server:
+git pull
+docker buildx build -t mihem/shinyapps_3838:v15 .
+docker compose up -d
 ```
 
-Then commit and push `renv.lock`, pull on the server, and rebuild the image (see above).
+The BuildKit cache means only the new package (and any new dependencies) is downloaded.
 
 ---
 

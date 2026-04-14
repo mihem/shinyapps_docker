@@ -4,7 +4,7 @@
 # This image provides only: OS, system libraries, and R packages.
 #
 # Build:
-#   docker buildx build -t mihem/shinyapps_3838:v14 .
+#   docker buildx build -t mihem/shinyapps_3838:v15 .
 #
 # Packages are installed via pak (parallel, binary-first from P3M).
 # The BuildKit cache mount keeps the pak cache across builds so that
