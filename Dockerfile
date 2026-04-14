@@ -6,11 +6,10 @@
 # Build:
 #   docker buildx build -t mihem/shinyapps_3838:v14 .
 #
-# The --mount=type=cache below keeps the renv package cache (downloaded and
-# compiled packages) persistent across builds on the build host. When you add
-# a new package to renv.lock, only that package is downloaded/compiled;
-# everything else is served from the cache. Requires BuildKit (default since
-# Docker 23). If you are on an older Docker: DOCKER_BUILDKIT=1 docker build ...
+# Packages are installed via pak (parallel, binary-first from P3M).
+# The BuildKit cache mount keeps the pak cache across builds so that
+# adding one new package only downloads/compiles that package.
+# Requires BuildKit (default since Docker 23).
 
 # get shiny server and R from the rocker project
 FROM rocker/shiny@sha256:7e9bf76faa7201fd60e2229e75f2e085030cfd552252570db16b12c9acbf36c9
@@ -47,26 +46,76 @@ RUN apt-get update --yes \
 # Delete example files shipped with the base image
 RUN rm -rf /srv/shiny-server/*
 
-# Install renv — pinned to match the version in renv.lock
-RUN R -e 'install.packages("renv", repos = "https://packagemanager.posit.co/cran/__linux__/noble/latest")'
+# Install pak from P3M binary snapshot
+RUN R -e 'install.packages("pak", repos = "https://packagemanager.posit.co/cran/__linux__/noble/2026-04-14")'
 
-WORKDIR /srv/shiny-server/shiny
-
-COPY renv.lock renv.lock
-
-# RENV_PATHS_LIBRARY: where the project library is installed (baked into image)
-# RENV_PATHS_CACHE:   where renv caches downloaded/compiled packages,
-#                     mapped to the BuildKit cache mount so it persists between builds
-ENV RENV_PATHS_LIBRARY=/srv/shiny-server/shiny/renv/library
-ENV RENV_PATHS_CACHE=/renv-cache
-
-# CRITICAL: packages must be COPIED into the image library, not symlinked from
-# the cache mount. The cache mount is only available during the RUN step; if
-# renv uses symlinks the project library will have broken links in the final image.
-ENV RENV_CONFIG_CACHE_SYMLINKS=FALSE
-
-# Restore R packages.
-# --mount=type=cache keeps /renv-cache across builds on this machine,
-# so only newly added packages are downloaded/compiled on subsequent builds.
-RUN --mount=type=cache,target=/renv-cache \
-    R -e "renv::restore()"
+# Install all R packages required by the Shiny apps.
+# pak resolves all transitive dependencies automatically, installs binaries
+# from P3M where available, and compiles from source otherwise.
+#
+# CRAN / Bioconductor packages: plain name
+# GitHub packages:              "owner/repo" or "owner/repo@ref"
+#
+# To add a new package: add it to the list below and rebuild.
+# The BuildKit cache mount means only the new package is downloaded/compiled.
+RUN --mount=type=cache,target=/root/.cache/R/pkgcache \
+    R -e 'pak::pak(c( \
+      "ape", \
+      "base64enc", \
+      "bnprks/BPCells@main", \
+      "bslib", \
+      "cachem", \
+      "caret", \
+      "circlize", \
+      "colourpicker", \
+      "ComplexHeatmap", \
+      "cowplot", \
+      "crayon", \
+      "data.table", \
+      "DESeq2", \
+      "digest", \
+      "dplyr", \
+      "DT", \
+      "effsize", \
+      "kevinblighe/EnhancedVolcano", \
+      "future", \
+      "ggplot2", \
+      "ggpmisc", \
+      "ggpubr", \
+      "ggrepel", \
+      "glmnet", \
+      "glue", \
+      "gridExtra", \
+      "HDF5Array", \
+      "htmlwidgets", \
+      "jsonify", \
+      "later", \
+      "Matrix", \
+      "memoise", \
+      "msigdbr", \
+      "plotly", \
+      "promises", \
+      "purrr", \
+      "qs", \
+      "RColorBrewer", \
+      "readr", \
+      "readxl", \
+      "scales", \
+      "scRepertoire", \
+      "scrypt", \
+      "Seurat", \
+      "shiny", \
+      "shinycssloaders", \
+      "shinydashboard", \
+      "shinyFeedback", \
+      "shinyFiles", \
+      "shinyjs", \
+      "shinymanager", \
+      "shinyWidgets", \
+      "speckle", \
+      "stringr", \
+      "tibble", \
+      "tidyr", \
+      "tidyverse", \
+      "viridis" \
+    ))'
