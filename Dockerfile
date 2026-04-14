@@ -47,8 +47,11 @@ RUN apt-get update --yes \
 # Delete example files shipped with the base image
 RUN rm -rf /srv/shiny-server/*
 
-# Install renv from a date-pinned binary snapshot
-RUN R -e 'install.packages("renv", repos = "https://packagemanager.posit.co/cran/__linux__/noble/2026-04-14")'
+# Install renv — pinned to the exact version recorded in renv.lock.
+# Do NOT use a post-1.2.0 snapshot here: renv 1.2.0 introduced parallel
+# binary-first installation which breaks the post-install load test for qs
+# (qs binary is tested before its source dependency RApiSerialize is built).
+RUN R -e 'install.packages("renv", version = "1.1.5", repos = "https://packagemanager.posit.co/cran/__linux__/noble/2024-07-24")'
 
 WORKDIR /srv/shiny-server/shiny
 
@@ -59,11 +62,6 @@ COPY renv.lock renv.lock
 #                     mapped to the BuildKit cache mount so it persists between builds
 ENV RENV_PATHS_LIBRARY=/srv/shiny-server/shiny/renv/library
 ENV RENV_PATHS_CACHE=/renv-cache
-
-# Skip post-install loadNamespace() checks: these cause ordering failures
-# when a binary package (qs) is tested before its source-compiled dependency
-# (RApiSerialize) has finished building. Not needed in a Docker build.
-ENV RENV_CONFIG_INSTALL_TEST=FALSE
 
 # Restore R packages.
 # --mount=type=cache keeps /renv-cache across builds on this machine,
