@@ -62,7 +62,7 @@ RUN --mount=type=cache,target=/root/.cache/R/pkgcache \
     R -e 'pak::pak(c( \
       "ape", \
       "base64enc", \
-      "bnprks/BPCells@main", \
+      "bnprks/BPCells/r@main", \
       "bslib", \
       "cachem", \
       "caret", \
