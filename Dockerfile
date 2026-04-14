@@ -1,8 +1,8 @@
 # Example shiny app docker file
 # https://blog.sellorm.com/2021/04/25/shiny-app-in-docker/
 
-# get shiny server and R from the rocker project 4.5.2
-FROM rocker/shiny@sha256:5778d5b48aae0612a8a2e2510c38f7b7ee16be00ae8d25f294158c4f8bc80d98
+# get shiny server and R from the rocker project
+FROM rocker/shiny@sha256:7e9bf76faa7201fd60e2229e75f2e085030cfd552252570db16b12c9acbf36c9
 
 # system libraries
 # Try to only install system libraries you actually need
@@ -41,7 +41,7 @@ RUN rm -rf /srv/shiny-server/*
 
 # install R packages required 
 # Change the packages list to suit your needs
-RUN R -e 'install.packages("renv", repos = "https://packagemanager.posit.co/cran/__linux__/noble/2025-04-09")'
+RUN R -e 'install.packages("renv", repos = "https://packagemanager.posit.co/cran/__linux__/noble/2026-04-14")'
 
 # Copy renv files 
 WORKDIR /srv/shiny-server/shiny
