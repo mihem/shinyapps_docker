@@ -47,21 +47,23 @@ RUN apt-get update --yes \
 # Delete example files shipped with the base image
 RUN rm -rf /srv/shiny-server/*
 
-# Install renv — pinned to the exact version recorded in renv.lock.
-# Do NOT use a post-1.2.0 snapshot here: renv 1.2.0 introduced parallel
-# binary-first installation which breaks the post-install load test for qs
-# (qs binary is tested before its source dependency RApiSerialize is built).
-RUN R -e 'install.packages("renv", version = "1.1.5", repos = "https://packagemanager.posit.co/cran/__linux__/noble/2024-07-24")'
+# Install renv — pinned to match the version in renv.lock
+RUN R -e 'install.packages("renv", repos = "https://packagemanager.posit.co/cran/__linux__/noble/latest")'
 
 WORKDIR /srv/shiny-server/shiny
 
 COPY renv.lock renv.lock
 
 # RENV_PATHS_LIBRARY: where the project library is installed (baked into image)
-# RENV_PATHS_CACHE:   where renv caches downloaded/compiled packages
+# RENV_PATHS_CACHE:   where renv caches downloaded/compiled packages,
 #                     mapped to the BuildKit cache mount so it persists between builds
 ENV RENV_PATHS_LIBRARY=/srv/shiny-server/shiny/renv/library
 ENV RENV_PATHS_CACHE=/renv-cache
+
+# CRITICAL: packages must be COPIED into the image library, not symlinked from
+# the cache mount. The cache mount is only available during the RUN step; if
+# renv uses symlinks the project library will have broken links in the final image.
+ENV RENV_CONFIG_CACHE_SYMLINKS=FALSE
 
 # Restore R packages.
 # --mount=type=cache keeps /renv-cache across builds on this machine,
