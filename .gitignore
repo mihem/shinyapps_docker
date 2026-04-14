@@ -1,18 +1,27 @@
-# Ignore everything
-*
+# ── macOS metadata ────────────────────────────────────────────────────────────
+.DS_Store
+._.DS_Store
+._*
 
-# But not these files in the root directory
-!README.md
-!renv.lock
-!Dockerfile
-!docker_run.sh
-!.gitignore
-!1_cerebro_host.R
-!2_cerebro_h5.R
-!ns/server.R
-!ns/ui.R
-!app.R
+# ── Local renv library ────────────────────────────────────────────────────────
+renv/library/
+renv/staging/
+renv/sandbox/
+renv/local/
 
-#even if they are in subdirectories
-!*/
+# ── Large binary data files (served from host, not tracked in git) ────────────
+**/*.h5
+**/*.crb
 
+# ── Credentials / secrets ─────────────────────────────────────────────────────
+**/*.sqlite
+
+# ── Cached / generated runtime data (not source code) ────────────────────────
+**/*.qs
+apps/btki/data/
+
+# ── R session artifacts ───────────────────────────────────────────────────────
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
