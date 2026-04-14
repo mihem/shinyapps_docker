@@ -90,13 +90,12 @@ RUN --mount=type=cache,target=/root/.cache/R/pkgcache \
       "htmlwidgets", \
       "jsonify", \
       "later", \
-      "Matrix", \
       "memoise", \
       "msigdbr", \
       "plotly", \
       "promises", \
       "purrr", \
-      "qs", \
+      "url::https://cran.r-project.org/src/contrib/Archive/qs/qs_0.27.3.tar.gz", \
       "RColorBrewer", \
       "readr", \
       "readxl", \
