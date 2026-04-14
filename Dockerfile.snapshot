@@ -1,0 +1,90 @@
+# Dockerfile.snapshot — use this ONCE to regenerate renv.lock from scratch.
+#
+# Run:
+#   docker buildx build -f Dockerfile.snapshot -t shiny-snapshot . && \
+#   docker run --rm shiny-snapshot cat /renv.lock > renv.lock
+#
+# This installs all packages fresh with pak (fast, parallel, binary where
+# possible) then uses renv::snapshot() to produce a clean lockfile.
+# Commit the resulting renv.lock and delete this file afterwards.
+
+FROM rocker/shiny@sha256:7e9bf76faa7201fd60e2229e75f2e085030cfd552252570db16b12c9acbf36c9
+
+# System libraries (same as main Dockerfile)
+RUN apt-get update --yes \
+  && apt-get upgrade --yes \
+  && apt-get install --yes \
+  libhdf5-dev \
+  cmake \
+  pkg-config \
+  libnlopt-dev \
+  build-essential \
+  gfortran \
+  libcurl4-openssl-dev \
+  libssl-dev \
+  libxml2-dev \
+  libharfbuzz-dev \
+  libfribidi-dev \
+  libfreetype6-dev \
+  libpng-dev \
+  libglib2.0-dev \
+  libjpeg-dev \
+  libtiff-dev \
+  libcairo2-dev \
+  libsqlite3-dev \
+  libgit2-dev \
+  libssh2-1-dev \
+  libmagick++-dev \
+  libgsl-dev \
+  libglpk-dev \
+  && rm -rf /var/lib/apt/lists/*
+
+# Install pak and renv
+RUN R -e 'install.packages(c("pak", "renv"), repos = "https://packagemanager.posit.co/cran/__linux__/noble/latest")'
+
+# Install all direct app dependencies via pak (parallel, binary-first)
+# GitHub packages use the owner/repo syntax
+RUN R -e 'pak::pak(c(
+  "bslib",
+  "caret",
+  "circlize",
+  "BiocManager",
+  "kevinblighe/EnhancedVolcano",
+  "future",
+  "ggpmisc",
+  "ggpubr",
+  "ggrepel",
+  "glmnet",
+  "gridExtra",
+  "jsonify",
+  "plotly",
+  "promises",
+  "qs",
+  "RColorBrewer",
+  "readxl",
+  "scRepertoire",
+  "Seurat",
+  "bnprks/BPCells@main",
+  "shiny",
+  "shinycssloaders",
+  "shinydashboard",
+  "shinyFeedback",
+  "shinyjs",
+  "shinymanager",
+  "shinyWidgets",
+  "tidyverse",
+  "viridis",
+  "ComplexHeatmap",
+  "DESeq2",
+  "effsize",
+  "msigdbr",
+  "scrypt",
+  "billboarder"
+))'
+
+# Create a minimal project so renv can snapshot it
+WORKDIR /snapshot
+RUN R -e ' \
+  renv::init(bare = TRUE, restart = FALSE); \
+  renv::snapshot(library = .libPaths()[1], lockfile = "/renv.lock", prompt = FALSE) \
+'

@@ -1,0 +1,6 @@
+# renv scans these directories for dependencies when running renv::snapshot()
+# or renv::status(). The apps/ directory contains the actual Shiny apps but
+# renv doesn't need to scan them — packages are managed explicitly via
+# Dockerfile.snapshot which installs packages directly.
+apps/
+renv/
