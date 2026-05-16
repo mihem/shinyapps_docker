@@ -233,4 +233,3 @@ ui <- dashboardPage(
   )
 )
 
-ui <- shinymanager::secure_app(ui)

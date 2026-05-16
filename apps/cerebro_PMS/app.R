@@ -10,9 +10,6 @@ library(plotly)
 library(shiny)
 library(shinydashboard)
 library(shinyWidgets)
-library(shinymanager)
-
-
 
 # 定义结果保存目录
 cerebro_root <- "."

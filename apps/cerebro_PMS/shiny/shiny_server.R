@@ -1,17 +1,7 @@
-user_credentials <- tibble::tribble(
-  ~user,              ~password,       ~start, ~expire, ~admin,
-  "admin", "admin#123", "2026-03-24",      NA,  FALSE,
-)
-
 ##----------------------------------------------------------------------------##
 ## Server function for Cerebro.
 ##----------------------------------------------------------------------------##
 server <- function(input, output, session) {
-  
-  ## check user authentication -----------------------------------------------##
-  res_auth <- secure_server(
-    check_credentials = check_credentials(user_credentials)
-  )
   
   ##--------------------------------------------------------------------------##
   ## Load color setup, plotting and utility functions.
