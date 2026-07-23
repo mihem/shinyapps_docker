@@ -112,8 +112,10 @@ RUN --mount=type=cache,target=/root/.cache/R/pkgcache \
       "shinyWidgets", \
       "speckle", \
       "stringr", \
+      "stringdist", \
       "tibble", \
       "tidyr", \
       "tidyverse", \
-      "viridis" \
+      "viridis", \
+      "visNetwork" \
     ))'
