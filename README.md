@@ -63,8 +63,12 @@ cd /path/to/shinyapps_docker
 # apps/cerebro_covid19/extdata/v1.4/sc_merge_cerebro.h5
 # apps/cerebro_dura/data/...  etc.
 
-# Build the image (this is the slow step — installs all R packages)
-docker buildx build -t mihem/shinyapps_3838:v15 .
+# Seed the rolling image once from the last complete image.
+docker pull mihem/shinyapps_3838:v15
+docker tag mihem/shinyapps_3838:v15 mihem/shinyapps_3838:rolling
+
+# Build the incremental image.
+docker compose build shiny
 
 # Start the container
 docker compose up -d
@@ -85,17 +89,19 @@ docker compose restart
 
 ```bash
 git pull
-docker buildx build -t mihem/shinyapps_3838:v15 .
+docker compose build shiny
 docker compose up -d
 ```
 
-The BuildKit cache persists compiled packages between builds on the server, so only newly added packages are downloaded/compiled.
+The Dockerfile starts from the previous `rolling` image. `pak` therefore sees
+the existing package library and installs only packages that are not already
+present. A failed build does not replace the existing `rolling` image.
 
 ### Push a new image to Docker Hub
 
 ```bash
-docker buildx build -t mihem/shinyapps_3838:v15 .
-docker push mihem/shinyapps_3838:v15
+docker compose build shiny
+docker push mihem/shinyapps_3838:rolling
 ```
 
 ---
@@ -107,11 +113,13 @@ Add the package name to the `pak::pak(c(...))` list in `Dockerfile`, then rebuil
 ```bash
 # On the server:
 git pull
-docker buildx build -t mihem/shinyapps_3838:v15 .
+docker compose build shiny
 docker compose up -d
 ```
 
-The BuildKit cache means only the new package (and any new dependencies) is downloaded.
+Because the previous `rolling` image is the build base, only the new package
+and any missing dependencies are installed. Keep existing package names in the
+list; `pak` checks them without reinstalling them.
 
 ---
 

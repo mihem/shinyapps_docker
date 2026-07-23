@@ -1,6 +1,6 @@
 services:
   shiny:
-    image: mihem/shinyapps_3838:v16
+    image: mihem/shinyapps_3838:rolling
     build: .
     restart: unless-stopped
     ports:
