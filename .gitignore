@@ -12,12 +12,12 @@ renv/local/
 # ── Large binary data files (served from host, not tracked in git) ────────────
 **/*.h5
 **/*.crb
+**/*.rds
 
 # ── Credentials / secrets ─────────────────────────────────────────────────────
 **/*.sqlite
 
 # ── Cached / generated runtime data (not source code) ────────────────────────
-**/*.qs
 apps/btki/data/
 
 # ── R session artifacts ───────────────────────────────────────────────────────

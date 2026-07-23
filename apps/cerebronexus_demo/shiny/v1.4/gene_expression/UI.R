@@ -1,0 +1,58 @@
+##----------------------------------------------------------------------------##
+## Tab: Gene (set) expression
+##----------------------------------------------------------------------------##
+## Prepend the shared plotly layout factory and the shared projection-scatter
+## renderer, then gene_expression's wrappers — all in ONE extendShinyjs() text
+## so they share a global scope (same pattern as spatial/UI.R).
+js_code_gene_expression_projection <- paste(
+  readr::read_file(
+    paste0(
+      Cerebro.options[["cerebro_root"]],
+      "/shiny/v1.4/www/projection_layouts.js"
+    )
+  ),
+  readr::read_file(
+    paste0(
+      Cerebro.options[["cerebro_root"]],
+      "/shiny/v1.4/www/projection_scatter.js"
+    )
+  ),
+  readr::read_file(
+    paste0(
+      Cerebro.options[["cerebro_root"]],
+      "/shiny/v1.4/gene_expression/js_projection_update_plot.js"
+    )
+  ),
+  sep = "\n"
+)
+
+tab_gene_expression <- tabItem(
+  tabName = "geneExpression",
+  ## necessary to ensure alignment of table headers and content
+  shinyjs::inlineCSS(
+    "
+    #expression_details_selected_cells .table th {
+      text-align: center;
+    }
+    #expression_details_selected_cells .dt-middle {
+      vertical-align: middle;
+    }
+    "
+  ),
+  shinyjs::extendShinyjs(
+    text = js_code_gene_expression_projection,
+    functions = c(
+      "expressionProjectionUpdatePlot2D",
+      "expressionProjectionUpdatePlot2DMultiPanel",
+      "expressionProjectionUpdatePlot3D",
+      "expressionClearSelection",
+      "expressionZoomToSelection"
+    )
+  ),
+  uiOutput("expression_projection_UI"),
+  uiOutput("expression_details_selected_cells_UI"),
+  uiOutput("expression_in_selected_cells_UI"),
+  uiOutput("expression_by_group_UI"),
+  uiOutput("expression_by_gene_UI") #,
+  # uiOutput("expression_by_pseudotime_UI")
+)

@@ -46,7 +46,7 @@ shinyapps_docker/
 └── 2_cerebro_h5.R        # Helper: convert .crb expression matrix to HDF5
 ```
 
-App data files (`.h5`, `.crb`) are **not** in git — they are large binary files that live on the server and are served via the bind mount.
+App data files (`.h5`, `.crb`, `.rds`) are **not** in git — they are large binary files that live on the server and are served via the bind mount.
 
 ---
 
