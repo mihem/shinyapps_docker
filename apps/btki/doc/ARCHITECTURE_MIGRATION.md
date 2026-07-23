@@ -113,14 +113,14 @@ run_app_production(port = 3838, host = "0.0.0.0")
 ```r
 # 在 R/data_registry.R 中添加
 new_data = list(
-  path = "data/new_analysis.qs",
+  path = "data/new_analysis.rds",
   type = "analysis_result",
   size_mb = 15,
   blocking = FALSE,
   priority = 40,
   concurrent = TRUE,
   description = "新分析结果",
-  load_fn = function(path) qread(path)
+  load_fn = function(path) readRDS(path)
 )
 ```
 

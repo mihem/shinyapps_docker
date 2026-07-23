@@ -232,7 +232,7 @@ propeller_Server <- function(id, meta_df, cached_data, tissue = "PBMC") {
       showNotification("Starting Propeller analysis...", type = "message", duration = 2)
 
       # Check cache
-      cache_file <- sprintf("data/cached_%s_propeller_statistics_ordered.qs", tolower(tissue))
+      cache_file <- sprintf("data/cached_%s_propeller_statistics_ordered.rds", tolower(tissue))
 
       if (!is.null(cached_data) &&
           input$cell_type_grouping == "celltype_merged.l2" &&

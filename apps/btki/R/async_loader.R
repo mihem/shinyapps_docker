@@ -39,7 +39,7 @@ library(promises)
 #'
 #' @examples
 #' loader <- create_async_loader(max_concurrent = 3)
-#' loader$submit("data1", list(path = "file.qs", load_fn = qread))
+#' loader$submit("data1", list(path = "file.rds", load_fn = readRDS))
 #'
 # 创建异步加载器
 create_async_loader <- function(max_concurrent = 2, progress_callback = NULL, verbose = TRUE) {

@@ -122,7 +122,7 @@ featureplot_Server <- function(id) {
     ))
 
     # Total cell count
-    n_total <- qread(file.path("data/pbmc_feature_plot_cache", "total_cell_number.qs"))
+    n_total <- readRDS(file.path("data/pbmc_feature_plot_cache", "total_cell_number.rds"))
 
     # Dynamic sampling UI
     output$sampling_ui <- renderUI({
@@ -233,9 +233,9 @@ featureplot_Server <- function(id) {
     # 1. Load raw data when user switches sampling size
     observeEvent(input$sample_cells, {
       cat("Selected sample size:", input$sample_cells, "\n")
-      catched_data <- qread(
+      catched_data <- readRDS(
         file.path("data/pbmc_feature_plot_cache",
-                  glue::glue("featureplot_data_{as.integer(input$sample_cells)}_cell.qs"))
+                  glue::glue("featureplot_data_{as.integer(input$sample_cells)}_cell.rds"))
       )
 
       # Store raw data

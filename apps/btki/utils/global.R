@@ -11,7 +11,6 @@ library(DT)
 library(plotly)
 library(ggplot2)
 library(dplyr)
-library(qs)
 library(future)
 library(promises)
 library(viridis)
@@ -244,13 +243,10 @@ pad_label <- function(label, width) {
 # process_list_of_dataframes <- function(lst) {
 #   lapply(lst, format_dataframe_numeric)
 # }
-
-# library(qs)
-
 # # Load data
-# metadata <- qread("data/10_shiny_app_metadata.qs")
-# metadata_cell <- qread("data/10_shiny_app_metadata_cell_raw.qs")
-# metadata_cell_filtered <- qread("data/10_shiny_app_metadata_cell.qs")
+# metadata <- readRDS("data/10_shiny_app_metadata.rds")
+# metadata_cell <- readRDS("data/10_shiny_app_metadata_cell_raw.rds")
+# metadata_cell_filtered <- readRDS("data/10_shiny_app_metadata_cell.rds")
 
 # # Format data
 # metadata_fmt <- process_list_of_dataframes(metadata)
@@ -259,6 +255,6 @@ pad_label <- function(label, width) {
 
 
 # # Example: Save as new files
-# qsave(metadata_fmt, "data/10_shiny_app_metadata_formatted.qs")
-# qsave(metadata_cell_fmt, "data/10_shiny_app_metadata_cell_raw_formatted.qs")
-# qsave(metadata_cell_filtered_fmt, "data/10_shiny_app_metadata_cell_formatted.qs")
+# saveRDS(metadata_fmt, "data/10_shiny_app_metadata_formatted.rds")
+# saveRDS(metadata_cell_fmt, "data/10_shiny_app_metadata_cell_raw_formatted.rds")
+# saveRDS(metadata_cell_filtered_fmt, "data/10_shiny_app_metadata_cell_formatted.rds")

@@ -54,10 +54,10 @@ create_disk_cache_manager <- function(cache_dir = "cache") {
       full_dir <- if (is.null(subdir)) cache_dir else file.path(cache_dir, subdir)
       if (!dir.exists(full_dir)) dir.create(full_dir, recursive = TRUE)
 
-      file_path <- file.path(full_dir, paste0(key, ".qs"))
+      file_path <- file.path(full_dir, paste0(key, ".rds"))
 
       tryCatch({
-        qs::qsave(data, file_path)
+        saveRDS(data, file_path)
         message("Saved to disk cache: ", file_path)
         return(TRUE)
       }, error = function(e) {
@@ -69,11 +69,11 @@ create_disk_cache_manager <- function(cache_dir = "cache") {
     # Load from disk cache
     load = function(key, subdir = NULL) {
       full_dir <- if (is.null(subdir)) cache_dir else file.path(cache_dir, subdir)
-      file_path <- file.path(full_dir, paste0(key, ".qs"))
+      file_path <- file.path(full_dir, paste0(key, ".rds"))
 
       if (file.exists(file_path)) {
         tryCatch({
-          data <- qs::qread(file_path)
+          data <- readRDS(file_path)
           message("Loaded from disk cache: ", file_path)
           return(data)
         }, error = function(e) {
@@ -88,7 +88,7 @@ create_disk_cache_manager <- function(cache_dir = "cache") {
     # Check if cache exists
     exists = function(key, subdir = NULL) {
       full_dir <- if (is.null(subdir)) cache_dir else file.path(cache_dir, subdir)
-      file_path <- file.path(full_dir, paste0(key, ".qs"))
+      file_path <- file.path(full_dir, paste0(key, ".rds"))
       file.exists(file_path)
     },
 
@@ -98,7 +98,7 @@ create_disk_cache_manager <- function(cache_dir = "cache") {
 
       if (!dir.exists(full_dir)) return(0)
 
-      files <- list.files(full_dir, pattern = "\\.qs$", full.names = TRUE)
+      files <- list.files(full_dir, pattern = "\\.rds$", full.names = TRUE)
       cutoff_time <- Sys.time() - (max_age_days * 24 * 3600)
 
       removed_count <- 0
@@ -121,7 +121,7 @@ create_disk_cache_manager <- function(cache_dir = "cache") {
         return(list(files = 0, total_size_mb = 0))
       }
 
-      files <- list.files(full_dir, pattern = "\\.qs$", full.names = TRUE)
+      files <- list.files(full_dir, pattern = "\\.rds$", full.names = TRUE)
       total_size <- sum(file.size(files), na.rm = TRUE)
 
       list(

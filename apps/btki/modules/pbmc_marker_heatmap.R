@@ -121,7 +121,7 @@ marker_heatmap_Server <- function(id, DEG, metadata, expr, cached_data, tissue) 
 
       cache_file <- file.path(
         glue::glue("data/{tolower(tissue)}_marker_heatmap_cache"),
-        sprintf("heatmap_pval%.3f_top%d_cells%s.qs",
+        sprintf("heatmap_pval%.3f_top%d_cells%s.rds",
                 as.numeric(input$p_value_threshold),
                 as.integer(input$topn),
                 ifelse(input$cell_number_limit == "NoLimit", "NoLimit", input$cell_number_limit)
@@ -133,9 +133,8 @@ marker_heatmap_Server <- function(id, DEG, metadata, expr, cached_data, tissue) 
       # Record start time
       start_time <- Sys.time()
 
-      result <- qread(
-        file = cache_file,
-        nthreads = 4
+      result <- readRDS(
+        file = cache_file
       )
 
       # Calculate read time
@@ -368,7 +367,7 @@ heatmap_data_func <- function(metadata, expr, markers_df,
   cat("===> [DEBUG] Heatmap data preparation completed, dimensions:",
       nrow(plot_data), "x", ncol(plot_data), "\n")
   if (!is.null(cached_file)) {
-    qsave(result, file = cached_file, nthreads = 4)
+    saveRDS(result, file = cached_file)
   }
 
   return(result)

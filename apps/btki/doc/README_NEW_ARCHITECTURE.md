@@ -51,14 +51,14 @@ test/                 # 测试脚本
 ```r
 # 添加新数据源
 data_resources$new_analysis <- list(
-  path = "data/new_analysis.qs",
+  path = "data/new_analysis.rds",
   type = "analysis_result",
   size_mb = 20,
   blocking = FALSE,        # 非阻塞（异步加载）
   priority = 30,          # 优先级（数字越小越优先）
   concurrent = TRUE,      # 可以并发加载
   description = "新分析结果",
-  load_fn = function(path) qread(path)
+  load_fn = function(path) readRDS(path)
 )
 ```
 
@@ -158,7 +158,7 @@ orchestrator$get_state()
 [APP SERVER] 初始化异步加载系统...
 [SYNC LOADED ] PBMC样本汇总元数据              (0.12s)
 [SYNC LOADED ] PBMC细胞级原始元数据            (0.08s)
-[ASYNC START ] UMAP降维坐标数据 -> data/20_S08_shiny_app_STACAS_plot_df.qs
+[ASYNC START ] UMAP降维坐标数据 -> data/20_S08_shiny_app_STACAS_plot_df.rds
 [ASYNC LOADED] UMAP降维坐标数据 (2.31s, 15.2MB)
 [ORCHESTRATOR] 延迟初始化模块: PBMC UMAP可视化模块
 ```
@@ -186,7 +186,7 @@ orchestrator$get_state()
 ```r
 # 使用 utils_cache.R 中的工具
 cached_loader <- create_cached_loader(
-  load_fn = qread,
+  load_fn = readRDS,
   cache_key_fn = function(path) digest::digest(path),
   use_disk_cache = TRUE
 )

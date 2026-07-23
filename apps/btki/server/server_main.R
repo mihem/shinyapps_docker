@@ -6,7 +6,6 @@ library(shiny)
 library(future)
 library(promises)
 library(shinyjs)
-library(qs)
 library(shinymanager)
 
 

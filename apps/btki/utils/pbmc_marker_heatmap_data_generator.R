@@ -146,7 +146,7 @@ heatmap_data_func <- function(metadata, expr, markers_df,
   cat("===> [调试] 热图数据准备完成，维度:",
       nrow(plot_data), "x", ncol(plot_data), "\n")
   if (!is.null(cached_file)) {
-    qsave(result, file = cached_file, nthreads = 4)
+    saveRDS(result, file = cached_file)
   }
 
   return(result)
@@ -154,9 +154,9 @@ heatmap_data_func <- function(metadata, expr, markers_df,
 
 
 # ===== 加载数据 =====
-DEG      <- qread("data/shinyapp_pbmc_23_S2_deg_celltype_heatmap.qs")
-metadata <- qread("data/shinyapp_pbmc_23_S2_metadata_annotated_timepoint_treatment.qs")
-expr     <- qread("data/shinyapp_pbmc_21_S07_STACAS_integrated_scaledata_expr.qs")
+DEG      <- readRDS("data/shinyapp_pbmc_23_S2_deg_celltype_heatmap.rds")
+metadata <- readRDS("data/shinyapp_pbmc_23_S2_metadata_annotated_timepoint_treatment.rds")
+expr     <- readRDS("data/shinyapp_pbmc_21_S07_STACAS_integrated_scaledata_expr.rds")
 
 
 # selectInput(
@@ -229,7 +229,7 @@ for (i in 1:nrow(param_combinations)) {
   cell_limit_str <- ifelse(is.null(cell_limit), "NoLimit", as.character(cell_limit))
   cache_file <- file.path(
     temp_dir,
-    sprintf("heatmap_pval%.3f_top%d_cells%s.qs", p_val, topn, cell_limit_str)
+    sprintf("heatmap_pval%.3f_top%d_cells%s.rds", p_val, topn, cell_limit_str)
   )
 
   cat(sprintf("[%d/%d] 处理: p_val=%.3f, topn=%d, cell_limit=%s\n",
@@ -323,7 +323,7 @@ if (sum(results_log$status == "error") > 0) {
 
 
 
-heatmap_data <- qread("data/temp/heatmap_pval0.001_top10_cells100.qs")
+heatmap_data <- readRDS("data/temp/heatmap_pval0.001_top10_cells100.rds")
 
 plot_data       <- heatmap_data$plot_data
 col_annotation  <- heatmap_data$col_annotation

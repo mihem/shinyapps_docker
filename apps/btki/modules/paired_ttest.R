@@ -239,7 +239,7 @@ paired_ttest_Server <- function(id, meta_df, cached_data, tissue = "PBMC") {
       showNotification("Starting Paired T-Test analysis...", type = "message", duration = 2)
 
       # Check cache
-      cache_file <- sprintf("data/cached_%s_paired_ttest.qs", tolower(tissue))
+      cache_file <- sprintf("data/cached_%s_paired_ttest.rds", tolower(tissue))
 
       if (!is.null(cached_data) &&
           input$cell_type_grouping == "celltype_merged.l2" &&

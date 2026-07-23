@@ -231,7 +231,7 @@ load_module_specs <- function() {
         description = "CSF cell type marker gene heatmap module",
         ready_fn = function(loader) {
           # Check if cache exists and is loaded
-          cache_exists <- file.exists("data/cached_csf_heatmap_data.qs")
+          cache_exists <- file.exists("data/cached_csf_heatmap_data.rds")
           has_cached   <- loader$is_loaded("cached_csf_heatmap") && !is.null(loader$get("cached_csf_heatmap"))
 
           if (cache_exists && has_cached) {
@@ -248,7 +248,7 @@ load_module_specs <- function() {
         },
         init_fn = function(id, resources) {
           # Check if cache exists
-          cache_exists <- file.exists("data/cached_csf_heatmap_data.qs")
+          cache_exists <- file.exists("data/cached_csf_heatmap_data.rds")
           has_cached   <- !is.null(resources$cached_csf_heatmap)
 
           if (cache_exists && has_cached) {
@@ -287,7 +287,7 @@ load_module_specs <- function() {
         description = "PBMC cell type marker gene heatmap module",
         ready_fn = function(loader) {
           # # Check if cache exists and is loaded
-          # cache_exists <- file.exists("data/cached_pbmc_heatmap_data.qs")
+          # cache_exists <- file.exists("data/cached_pbmc_heatmap_data.rds")
           # has_cached <- loader$is_loaded("cached_pbmc_heatmap") && !is.null(loader$get("cached_pbmc_heatmap"))
 
           # if (cache_exists && has_cached) {
@@ -305,7 +305,7 @@ load_module_specs <- function() {
         },
         init_fn = function(id, resources) {
           # # Check if cache exists
-          # cache_exists <- file.exists("data/cached_pbmc_heatmap_data.qs")
+          # cache_exists <- file.exists("data/cached_pbmc_heatmap_data.rds")
           # has_cached <- !is.null(resources$cached_pbmc_heatmap)
 
           # if (cache_exists && has_cached) {

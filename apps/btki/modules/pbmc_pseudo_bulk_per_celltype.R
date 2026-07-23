@@ -291,7 +291,7 @@ pseudo_bulk_Server <- function(id, meta_df, pseudo_bulk_result_list, tissue = "P
         sep = "_"
       )
 
-      cache_file <- file.path("data", paste0("cached_pbmc_pseudo_bulk_cache_", cache_key, ".qs"))
+      cache_file <- file.path("data", paste0("cached_pbmc_pseudo_bulk_cache_", cache_key, ".rds"))
 
       # Check if cache exists
       if (file.exists(cache_file)) {

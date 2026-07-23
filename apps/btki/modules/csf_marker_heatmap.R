@@ -115,7 +115,7 @@ csf_marker_heatmap_Server <- function(id, DEG, metadata, expr, cached_data, tiss
 
       if (is.null(cached_data)) {
 
-        cached_file <- glue::glue("data/cached_{tolower(tissue)}_heatmap_data.qs")
+        cached_file <- glue::glue("data/cached_{tolower(tissue)}_heatmap_data.rds")
 
         if (input$cell_number_limit == "NO Limit") {
           cell_number_limit <- NULL
@@ -133,7 +133,7 @@ csf_marker_heatmap_Server <- function(id, DEG, metadata, expr, cached_data, tiss
           anno_vars = c("treatment", "timepoint")
         )
 
-        qsave(result, file = cached_file)
+        saveRDS(result, file = cached_file)
       } else {
         result <- cached_data
       }
@@ -340,7 +340,7 @@ heatmap_data_func <- function(metadata, expr, markers_df,
   cat("===> [Debug] Heatmap data preparation complete, dimensions:",
       nrow(plot_data), "x", ncol(plot_data), "\n")
   if (!is.null(cached_file)) {
-    qsave(result, file = cached_file, nthreads = 4)
+    saveRDS(result, file = cached_file)
   }
 
   return(result)

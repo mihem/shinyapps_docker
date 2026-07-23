@@ -232,7 +232,7 @@ wilcoxon_Server <- function(id, meta_df, cached_data, tissue = "PBMC") {
       showNotification("Starting Wilcoxon analysis...", type = "message", duration = 2)
 
       # Check cache
-      cache_file <- sprintf("data/cached_%s_wilcoxon_results_df.qs", tolower(tissue))
+      cache_file <- sprintf("data/cached_%s_wilcoxon_results_df.rds", tolower(tissue))
 
       if (!is.null(cached_data) &&
           input$cell_type_grouping == "celltype_merged.l2" &&

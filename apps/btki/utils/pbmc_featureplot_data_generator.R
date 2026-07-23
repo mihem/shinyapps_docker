@@ -5,8 +5,8 @@ source("utils/global.R")
 
 
 
-expr_df <- qread("data/shinyapp_pbmc_21_S07_STACAS_rna_data_expr.qs")
-umap_data <- qread("data/shinyapp_pbmc_21_S07_STACAS_plot_df.qs")
+expr_df <- readRDS("data/shinyapp_pbmc_21_S07_STACAS_rna_data_expr.rds")
+umap_data <- readRDS("data/shinyapp_pbmc_21_S07_STACAS_plot_df.rds")
 
 # ===== 批量生成所有参数组合的缓存文件 =====
 
@@ -20,7 +20,7 @@ if (!dir.exists(temp_dir)) {
 # 细胞总数
 n_total <- nrow(umap_data)
 
-qsave(n_total, file.path(temp_dir, "total_cell_number.qs"))
+saveRDS(n_total, file.path(temp_dir, "total_cell_number.rds"))
 
 
 
@@ -48,8 +48,8 @@ for(szie in sizes){
 
   sampled_expr_df <- expr_df[, sampled_umap_data$cell, drop = FALSE]
 
-  save_path <- file.path(temp_dir, glue::glue("featureplot_data_{size}_cell.qs"))
-  qsave(
+  save_path <- file.path(temp_dir, glue::glue("featureplot_data_{size}_cell.rds"))
+  saveRDS(
     list(
       expr_df = sampled_expr_df,
       umap_data = sampled_umap_data

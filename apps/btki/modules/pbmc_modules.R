@@ -239,7 +239,7 @@ cell_composition_table_Server <- function(id, meta_df, cached_data, tissue = "PB
         stats::setNames(CELL_TYPES)
 
       result <- list(CELL_TYPES = CELL_TYPES, CELL_TYPE_COUNTS_SPLIT = CELL_TYPE_COUNTS_SPLIT)
-      qsave(result, file = paste0("data/cached_", tolower(tissue), "_cell_composition_table.qs"))
+      saveRDS(result, file = paste0("data/cached_", tolower(tissue), "_cell_composition_table.rds"))
 
     } else {
       CELL_TYPE_COUNTS_SPLIT <- cached_data$CELL_TYPE_COUNTS_SPLIT

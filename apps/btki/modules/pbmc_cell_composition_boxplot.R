@@ -141,7 +141,7 @@ cell_composition_boxplot_Server <- function(id, cached_data, tissue = "PBMC",
       mutate(percent = cell_number / total_cell_number * 100) %>%
       ungroup()
 
-    qsave(CELL_TYPE_COUNTS, file = paste0("data/cached_", tolower(tissue), "_composition_boxplot.qs"), nthreads = 4)
+    saveRDS(CELL_TYPE_COUNTS, file = paste0("data/cached_", tolower(tissue), "_composition_boxplot.rds"))
 
     CELL_TYPE_COUNTS_SPLIT <- CELL_TYPE_COUNTS |>
       dplyr::arrange(annotated) |>

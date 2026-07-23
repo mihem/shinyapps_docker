@@ -127,8 +127,8 @@ Listening on http://127.0.0.1:14242
 [APP SERVER] 同步加载首屏资源...
 [SYNC LOADED ] PBMC 元数据样本统计               (0.02s)
 [APP SERVER] 启动异步资源加载...
-[ASYNC START ] PBMC 完整Seurat对象               -> data/20_S07_seurat_integrated_STACAS_standard_pipeline.qs
-[ASYNC START ] PBMC RNA表达矩阵                  -> data/20_S08_shiny_app_STACAS_rna_count_expr.qs
+[ASYNC START ] PBMC 完整Seurat对象               -> data/20_S07_seurat_integrated_STACAS_standard_pipeline.rds
+[ASYNC START ] PBMC RNA表达矩阵                  -> data/20_S08_shiny_app_STACAS_rna_count_expr.rds
 [PROGRESS] 2/14 资源已加载 (14.3%)
 [ASYNC LOADED] PBMC 完整Seurat对象               (2.45s, 126.7MB)
 [ASYNC LOADED] PBMC RNA表达矩阵                  (1.23s, 45.2MB)

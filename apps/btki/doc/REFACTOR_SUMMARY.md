@@ -110,12 +110,12 @@ orchestrator$generate_status_report()
 ```r
 # 在 R/data_registry.R 中添加
 data_resources$my_new_data <- list(
-  path = "data/my_analysis.qs",
+  path = "data/my_analysis.rds",
   type = "analysis",
   blocking = FALSE,           # 异步加载
   priority = 30,             # 中等优先级
   description = "我的新分析",
-  load_fn = function(path) qread(path)
+  load_fn = function(path) readRDS(path)
 )
 ```
 
