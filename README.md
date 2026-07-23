@@ -34,7 +34,9 @@ Cerebro-based apps use [cerebroApp](https://github.com/romanhaa/cerebroApp) / [c
 
 ```
 shinyapps_docker/
-├── Dockerfile            # R packages + system libs only (no app code)
+├── Dockerfile            # Fast incremental build from the rolling image
+├── Dockerfile.bootstrap  # Clean rebuild from the pinned Rocker image
+├── packages.R            # Complete direct R package manifest
 ├── docker-compose.yml    # Runtime config: ports, volumes, restart policy
 ├── apps/                 # All Shiny apps (bind-mounted into container)
 │   ├── cerebro_covid19/
@@ -76,6 +78,19 @@ docker compose up -d
 
 The container mounts `./apps` into `/srv/shiny-server/shiny` — only the app directories are visible inside the container. Infrastructure files (`Dockerfile`, `renv.lock`, etc.) are not exposed.
 
+If `v15` or another complete rolling image is unavailable, create one from
+scratch with the bootstrap Dockerfile:
+
+```bash
+docker buildx build --load \
+  -f Dockerfile.bootstrap \
+  -t mihem/shinyapps_3838:rolling \
+  .
+```
+
+This clean path installs the system libraries and every package in
+`packages.R`, so it is intentionally slower than a routine rolling build.
+
 ### Routine deployment (app code change only)
 
 No rebuild needed. Just pull and restart:
@@ -94,21 +109,28 @@ docker compose up -d
 ```
 
 The Dockerfile starts from the previous `rolling` image. `pak` therefore sees
-the existing package library and installs only packages that are not already
-present. A failed build does not replace the existing `rolling` image.
+the existing package library and performs the minimum necessary installation
+work. `pak` prefers binaries when available and falls back to source packages
+when needed. A failed build does not replace the existing `rolling` image.
 
 ### Push a new image to Docker Hub
 
 ```bash
+VERSION=v17
 docker compose build shiny
+docker tag mihem/shinyapps_3838:rolling mihem/shinyapps_3838:${VERSION}
+docker push mihem/shinyapps_3838:${VERSION}
 docker push mihem/shinyapps_3838:rolling
 ```
+
+`rolling` always points to the newest release. Keep each numbered tag immutable
+so an earlier image remains available for rollback.
 
 ---
 
 ## Adding a new R package
 
-Add the package name to the `pak::pak(c(...))` list in `Dockerfile`, then rebuild:
+Add the package name to `required_packages` in `packages.R`, then rebuild:
 
 ```bash
 # On the server:
@@ -118,8 +140,8 @@ docker compose up -d
 ```
 
 Because the previous `rolling` image is the build base, only the new package
-and any missing dependencies are installed. Keep existing package names in the
-list; `pak` checks them without reinstalling them.
+and updates selected by `pak` are installed. `packages.R` remains the complete
+manifest used by both the incremental and clean bootstrap builds.
 
 ---
 

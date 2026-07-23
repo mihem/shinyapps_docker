@@ -1,0 +1,38 @@
+# Clean rebuild path for the rolling Shiny image. Routine builds use Dockerfile
+# and extend the existing rolling image instead.
+FROM rocker/shiny@sha256:7e9bf76faa7201fd60e2229e75f2e085030cfd552252570db16b12c9acbf36c9
+
+RUN apt-get update --yes \
+  && apt-get install --yes \
+  libhdf5-dev \
+  cmake \
+  pkg-config \
+  libnlopt-dev \
+  build-essential \
+  gfortran \
+  libcurl4-openssl-dev \
+  libssl-dev \
+  libxml2-dev \
+  libharfbuzz-dev \
+  libfribidi-dev \
+  libfreetype6-dev \
+  libpng-dev \
+  libglib2.0-dev \
+  libjpeg-dev \
+  libtiff-dev \
+  libcairo2-dev \
+  libsqlite3-dev \
+  libgit2-dev \
+  libssh2-1-dev \
+  libmagick++-dev \
+  libgsl-dev \
+  libglpk-dev \
+  && rm -rf /var/lib/apt/lists/* /srv/shiny-server/*
+
+RUN R -e 'install.packages("pak", repos = "https://r-lib.github.io/p/pak/stable/")'
+
+COPY packages.R /tmp/packages.R
+
+RUN --mount=type=cache,target=/root/.cache/R/pkgcache \
+  Rscript /tmp/packages.R \
+  && rm /tmp/packages.R
