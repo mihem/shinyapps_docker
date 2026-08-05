@@ -40,6 +40,80 @@ resolve_spatial_image_preset <- function(
   if (is.null(val) || length(val) != 1 || is.na(val)) fallback else val
 }
 
+## Resolve the server-side allowlist for the selected dataset. Browser-provided
+## selectInput values are never an authority for which files may be read.
+configured_spatial_images <- function(
+  options,
+  crb_files = NULL,
+  selected = NULL,
+  crb_names = NULL
+) {
+  if (is.null(options) || is.null(options[["spatial_images"]])) {
+    return(character())
+  }
+
+  spatial_images <- options[["spatial_images"]]
+  if (length(spatial_images) == 0L) {
+    return(character())
+  }
+
+  if (is.null(crb_files) || is.null(selected)) {
+    return(character())
+  }
+  index <- which(crb_files == selected)
+  if (length(index) == 0L) {
+    return(character())
+  }
+  dataset <- names(crb_files)[index[[1L]]]
+  if (
+    (is.null(dataset) || is.na(dataset) || !nzchar(dataset)) &&
+      length(crb_names) >= index[[1L]]
+  ) {
+    dataset <- crb_names[[index[[1L]]]]
+  }
+  if (
+    (is.null(dataset) || is.na(dataset) || !nzchar(dataset)) &&
+      length(crb_files) == 1L &&
+      length(spatial_images) == 1L
+  ) {
+    dataset <- names(spatial_images)[[1L]]
+  }
+  if (is.null(dataset) || is.na(dataset) || !nzchar(dataset)) {
+    return(character())
+  }
+  configured <- which(names(spatial_images) == dataset)
+  if (length(configured) == 0L) {
+    return(character())
+  }
+  images <- unlist(spatial_images[configured], use.names = FALSE)
+
+  if (!is.character(images)) {
+    return(character())
+  }
+  unique(images[!is.na(images) & nzchar(images)])
+}
+
+normalize_spatial_background_choice <- function(
+  background_image,
+  configured_images,
+  has_embedded_image = FALSE
+) {
+  allowed <- c(
+    "No Background",
+    configured_images,
+    if (isTRUE(has_embedded_image)) "__embedded__"
+  )
+  if (
+    !is.character(background_image) ||
+      length(background_image) != 1L ||
+      is.na(background_image) ||
+      !(background_image %in% allowed)
+  ) {
+    return("No Background")
+  }
+  background_image
+}
+
 format_spatial_preset_code <- function(
   label,
   offset_x,
@@ -165,6 +239,10 @@ morans_i <- function(x, y, values, k = 6) {
   row_sums <- rowSums(weight)
   row_sums[row_sums == 0] <- 1 # avoid 0/0 for isolated cells
   weight <- weight / row_sums
-  res <- ape::Moran.I(values, weight)
-  res$observed
+  ## Moran's I observed statistic, computed natively (matches ape::Moran.I()
+  ## $observed to floating-point precision) so the viewer needs no ape dependency:
+  ##   I = (n / W) * sum_ij w_ij (x_i - xbar)(x_j - xbar) / sum_i (x_i - xbar)^2
+  z <- values - mean(values)
+  W <- sum(weight)
+  (n / W) * sum(weight * outer(z, z)) / sum(z^2)
 }
