@@ -16,6 +16,7 @@ renv/local/
 
 # ── Credentials / secrets ─────────────────────────────────────────────────────
 **/*.sqlite
+viewer-auth.env
 
 # ── Cached / generated runtime data (not source code) ────────────────────────
 apps/btki/data/
