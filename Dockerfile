@@ -8,4 +8,6 @@ COPY packages.R /tmp/packages.R
 
 RUN R -e 'install.packages("pak", repos = "https://r-lib.github.io/p/pak/stable/")' \
   && Rscript /tmp/packages.R \
+  && R -e 'if (!requireNamespace("qs2", quietly = TRUE)) install.packages("stringfish", repos = "https://cloud.r-project.org")' \
+  && R -e 'stopifnot(requireNamespace("qs2", quietly = TRUE))' \
   && rm /tmp/packages.R

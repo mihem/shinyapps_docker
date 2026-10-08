@@ -1,6 +1,7 @@
 required_packages <- c(
   "ape",
   "base64enc",
+  "bnprks/BPCells/r",
   "bslib",
   "cachem",
   "caret",
@@ -33,6 +34,7 @@ required_packages <- c(
   "plotly",
   "promises",
   "purrr",
+  "qs2",
   "RColorBrewer",
   "readr",
   "readxl",
