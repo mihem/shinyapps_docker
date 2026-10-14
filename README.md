@@ -25,6 +25,7 @@ Interactive single-cell transcriptomics atlases and analysis tools, served via S
 | [cerebro_in_seq](https://osmzhlab.uni-muenster.de/shiny/cerebro_in_seq/) | IN-Seq dataset |
 | [btki](https://osmzhlab.uni-muenster.de/shiny/btki/) | BTKi therapy — PBMC and CSF analysis dashboard |
 | [ns](https://osmzhlab.uni-muenster.de/shiny/ns/) | Neurosarcoidosis vs. MS classifier |
+| [human_dura_atlas](https://osmzhlab.uni-muenster.de/shiny/human_dura_atlas/) | Human dura atlas with single-nucleus and spatial data (login required) |
 
 Cerebro-based apps use [cerebroApp](https://github.com/romanhaa/cerebroApp) / [cerebroAppLite](https://github.com/mihem/cerebroAppLite).
 
@@ -43,12 +44,18 @@ shinyapps_docker/
 │   ├── cerebro_dura/
 │   ├── btki/
 │   ├── ns/
+│   ├── human_dura_atlas/
 │   └── ...
 ├── 1_cerebro_host.R      # Helper: scaffold a new cerebroAppLite app
 └── 2_cerebro_h5.R        # Helper: convert .crb expression matrix to HDF5
 ```
 
 App data files (`.h5`, `.crb`, `.rds`) are **not** in git — they are large binary files that live on the server and are served via the bind mount.
+
+For `human_dura_atlas`, the entire `private-data/` directory (including BPCells
+matrices, `.qs2` spatial data, and the authentication database) and `spatial-assets/`
+are also excluded. `viewer-auth.env` and SQLite files are ignored. Provision these
+files separately on the server; cloning this repository alone is not sufficient.
 
 ---
 
@@ -99,6 +106,15 @@ No rebuild needed. Just pull and restart:
 git pull
 docker compose restart
 ```
+
+### Human dura atlas data and authentication
+
+Provision `private-data/`, `spatial-assets/`, and `viewer-auth.env` separately
+under `apps/human_dura_atlas/`. Authentication files must belong to the Shiny
+user's numeric UID/GID inside the container: use mode `600` for `viewer-auth.env`
+and `400` for `private-data/auth/credentials.sqlite`. Parent directories must be
+traversable by that user. Git does not preserve ownership or these permissions.
+See the [authentication deployment notes](apps/human_dura_atlas/viewer/AUTHENTICATION-DEPLOYMENT.md).
 
 ### After adding a new R package
 
