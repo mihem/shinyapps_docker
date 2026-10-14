@@ -13,6 +13,8 @@ renv/local/
 **/*.h5
 **/*.crb
 **/*.rds
+apps/human_dura_atlas/private-data/
+apps/human_dura_atlas/spatial-assets/
 
 # ── Credentials / secrets ─────────────────────────────────────────────────────
 **/*.sqlite
