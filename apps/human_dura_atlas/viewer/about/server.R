@@ -24,34 +24,27 @@ output[["about"]] <- renderText({
     version,
     '<br>
     <br>
-    <b>Authors</b><br>
-    Roman Hillje<br>
+    <b>Current developers and maintainers</b><br>
     Michael Heming<br>
     Xuesong Wang<br>
     <br>
-    CerebroNexus builds on the original Cerebro / cerebroApp by Roman Hillje.
-    Michael Heming and Xuesong Wang continue its development as CerebroNexus,
-    adding functionality beyond the original publication.<br>
+    CerebroNexus (CellReportBrowser Nexus) is a Shiny platform for exploring and sharing single-cell and spatial transcriptomics data, with gene-expression, immune-repertoire, trajectory, and HLA-TCR analyses. <br>
+    <br>
+    CerebroNexus originated as a fork of
+    <a href="https://github.com/romanhaa/cerebroApp" target="_blank" rel="noopener noreferrer">cerebroApp</a>,
+    originally developed by Roman Hillje.<br>
     <br>
     <b>Links</b><br>
     <ul>
       <li><a href=https://github.com/mihem/CerebroNexus title="CerebroNexus on GitHub" target="_blank"><b>CerebroNexus on GitHub</b></a></li>
-      <li><a href=https://github.com/romanhaa/Cerebro title="Discontinued Cerebro repository on GitHub (Roman Hillje)" target="_blank"><b>Discontinued Cerebro repository on GitHub (Roman Hillje)</b></a></li>
     </ul>
     <br>
     <b>Citation</b><br>
-    If you used CerebroNexus for your research, please cite both the software
-    used and the original Cerebro publication:
-    <ol>
-      <li>Michael Heming, Roman Hillje, Xuesong Wang.
-      <i>CerebroNexus</i> [software]. Version ', htmltools::htmlEscape(version), '.
-      <a href="https://github.com/mihem/CerebroNexus" target="_blank" rel="noopener noreferrer">https://github.com/mihem/CerebroNexus</a>.
-      Record the version or commit you used; if using a fork, also include its repository URL and commit.</li>
-      <li>Roman Hillje, Pier Giuseppe Pelicci, Lucilla Luzi.
-      <i>Cerebro: Interactive visualization of scRNA-seq data</i>.
-      Bioinformatics, btz877.
-      <a href="https://doi.org/10.1093/bioinformatics/btz877" title="DOI" target="_blank" rel="noopener noreferrer">https://doi.org/10.1093/bioinformatics/btz877</a>.</li>
-    </ol>
+    If you used CerebroNexus for your research, please cite:<br>
+    Michael Heming, Xuesong Wang.
+    <i>CerebroNexus</i> [software]. Version ', htmltools::htmlEscape(version), '.
+    <a href="https://github.com/mihem/CerebroNexus" target="_blank" rel="noopener noreferrer">https://github.com/mihem/CerebroNexus</a>.
+    <br>
     <br>
     <b>License</b><br>
     CerebroNexus is distributed under the terms of the <a href=https://github.com/mihem/CerebroNexus/blob/master/LICENSE.md title="MIT license" target="_blank">MIT license.</a><br>
