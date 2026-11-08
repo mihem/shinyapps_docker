@@ -11,3 +11,6 @@ services:
       # visible inside the container.
       # Adjust the source path to wherever the repo is cloned on the server.
       - ./apps:/srv/shiny-server/shiny:ro
+      # Large demo dataset (Ren et al. COVID-19 atlas, ~28 GB). Not in git;
+      # lives next to the repo on the server. See README "Demo large dataset".
+      - ../ren-data:/data/ren:ro

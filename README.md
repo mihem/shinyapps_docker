@@ -26,6 +26,7 @@ Interactive single-cell transcriptomics atlases and analysis tools, served via S
 | [btki](https://osmzhlab.uni-muenster.de/shiny/btki/) | BTKi therapy — PBMC and CSF analysis dashboard |
 | [ns](https://osmzhlab.uni-muenster.de/shiny/ns/) | Neurosarcoidosis vs. MS classifier |
 | [human_dura_atlas](https://osmzhlab.uni-muenster.de/shiny/human_dura_atlas/) | Human dura atlas with single-nucleus and spatial data (login required) |
+| [demo](https://osmzhlab.uni-muenster.de/shiny/demo/) | CerebroNexus demo: sample single-cell and spatial data sets plus the Ren et al. COVID-19 atlas (1.46M cells) |
 
 Cerebro-based apps use [cerebroApp](https://github.com/romanhaa/cerebroApp) / [cerebroAppLite](https://github.com/mihem/cerebroAppLite).
 
@@ -115,6 +116,27 @@ user's numeric UID/GID inside the container: use mode `600` for `viewer-auth.env
 and `400` for `private-data/auth/credentials.sqlite`. Parent directories must be
 traversable by that user. Git does not preserve ownership or these permissions.
 See the [authentication deployment notes](apps/human_dura_atlas/viewer/AUTHENTICATION-DEPLOYMENT.md).
+
+### Demo large dataset (Ren et al. COVID-19 atlas)
+
+The `demo` app is a copy of CerebroNexus `inst/` (app.R, viewer/, extdata/; the
+HLA core `R/hla_*.R` is copied to `viewer/hla_tcr_motifs/core/`). The small
+sample `.crb` files are git-ignored like all `.crb` files and must be copied to
+the server separately. Their provenance is documented in CerebroNexus
+`data-raw/DATASETS.md`. The Ren dataset (a `.crb` with an adjacent `.h5`, ~28 GB)
+lives outside the repository, in a `ren-data/` directory next to the checkout,
+and is mounted read-only as `/data/ren` (see `docker-compose.yml`).
+`apps/demo/.Renviron` points `CEREBRO_REN_DEMO_CRB` at it, because Shiny Server
+does not pass container environment variables to apps. Upload or resume it from
+the machine that holds the prepared data (`run-demo.R --data=ren` in CerebroNexus):
+
+```bash
+rsync -a --append-verify --partial --info=progress2 --chmod=D755,F644 \
+  -e "ssh -o ControlMaster=no -o ControlPath=none" \
+  <prepared-ren-dir>/ <user>@<server>:<path-to>/ren-data/
+```
+
+Changing the volume list needs `docker compose up -d` (recreates the container).
 
 ### After adding a new R package
 

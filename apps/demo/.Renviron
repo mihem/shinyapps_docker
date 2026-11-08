@@ -1,0 +1,4 @@
+# Shiny Server does not pass the container's environment to apps, so the demo's
+# large dataset is configured here. R reads this file from the app directory.
+# The path is inside the container; see docker-compose.yml (../ren-data -> /data/ren).
+CEREBRO_REN_DEMO_CRB=/data/ren/cerebro_ren_covid_1.46m.crb
