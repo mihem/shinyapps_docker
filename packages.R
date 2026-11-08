@@ -30,6 +30,7 @@ required_packages <- c(
   "jsonify",
   "later",
   "memoise",
+  "mirai",
   "msigdbr",
   "plotly",
   "promises",
