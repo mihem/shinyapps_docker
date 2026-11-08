@@ -1,0 +1,28 @@
+##----------------------------------------------------------------------------##
+## Tab: Overview
+##----------------------------------------------------------------------------##
+source(
+  paste0(
+    Cerebro.options[["cerebro_root"]],
+    "/viewer/overview/UI_projection.R"
+  ),
+  local = TRUE
+)
+
+tab_overview <- tabItem(
+  tabName = "overview",
+  ## necessary to ensure alignment of table headers and content
+  shinyjs::inlineCSS(
+    "
+    #overview_details_selected_cells_table .table th {
+      text-align: center;
+    }
+    #overview_details_selected_cells_table .dt-middle {
+      vertical-align: middle;
+    }
+    "
+  ),
+  overviewProjectionUI(),
+  uiOutput("overview_selected_cells_plot_UI"),
+  uiOutput("overview_selected_cells_table_UI")
+)
