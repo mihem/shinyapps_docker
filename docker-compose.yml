@@ -14,3 +14,17 @@ services:
       # Large demo dataset (Ren et al. COVID-19 atlas, ~28 GB). Not in git;
       # lives next to the repo on the server. See README "Demo large dataset".
       - ../ren-data:/data/ren:ro
+      # Shiny Server configuration: the image default plus a location for the
+      # demo, whose R process is kept running (app_idle_timeout 0).
+      - ./shiny-server.conf:/etc/shiny-server/shiny-server.conf:ro
+    # Requests the page of the demo every 10 minutes (every 10 s in the first
+    # minute after a start). The first request after a
+    # start of the container (restart, reboot of the server, new image) or
+    # after touching apps/demo/restart.txt starts the R process of the demo,
+    # so no visitor has to wait for it. Later requests cost a few ms.
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3838/shiny/demo/"]
+      interval: 10m
+      timeout: 2m
+      start_period: 1m
+      start_interval: 10s
